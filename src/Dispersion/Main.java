@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package matrizdispersion;
+package dispersion;
 
 /**
  *
- * @author AndresFWilT
+ * @author jefer
  */
 public class Main {
 

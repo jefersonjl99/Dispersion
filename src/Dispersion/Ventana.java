@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package matrizdispersion;
+package dispersion;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,7 +19,7 @@ import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author AndresFWilT
+ * @author jefer
  */
 public class Ventana extends javax.swing.JFrame {
 
@@ -31,7 +31,7 @@ public class Ventana extends javax.swing.JFrame {
     Dispersion d;
 
     public Ventana() {
-        this.setTitle("Matriz de Dispersion");
+        this.setTitle("Dispersion");
         this.setResizable(false);
         initComponents();
         lLlaves.setVisible(false);
@@ -62,40 +62,47 @@ public class Ventana extends javax.swing.JFrame {
         tNombresM = new javax.swing.JTextField();
         bRetirar = new javax.swing.JButton();
         bDispersar = new javax.swing.JButton();
-        lInfo3 = new javax.swing.JLabel();
         lEncSep = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tListaCabezas = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         tDatos = new javax.swing.JTable();
-        lTitulo2 = new javax.swing.JLabel();
         lCabezasListas = new javax.swing.JLabel();
         lDisponible = new javax.swing.JLabel();
         bBuscar = new javax.swing.JButton();
         bMostrarTablas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 0, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lCursor.setFont(new java.awt.Font("TI-Nspire Sans", 1, 24)); // NOI18N
         lCursor.setForeground(new java.awt.Color(51, 51, 51));
-        lCursor.setText("cursor");
-        getContentPane().add(lCursor, new org.netbeans.lib.awtextra.AbsoluteConstraints(595, 414, -1, -1));
+        lCursor.setText("Grafica Cursor");
+        getContentPane().add(lCursor, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, -1, -1));
 
-        lInfo.setText("numero de llaves (cuantas llaves va a dispersar aleatoriamente):");
-        getContentPane().add(lInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 90, -1, -1));
+        lInfo.setText("numero de llaves a dispersar aleatoriamente:");
+        getContentPane().add(lInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 80, -1, -1));
 
         bAleatorio.setText("Generar aleatoriamente");
+        bAleatorio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bAleatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bAleatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAleatorioActionPerformed(evt);
             }
         });
-        getContentPane().add(bAleatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 73, 180, -1));
-        getContentPane().add(tLlaves, new org.netbeans.lib.awtextra.AbsoluteConstraints(389, 87, 58, -1));
+        getContentPane().add(bAleatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 110, 180, -1));
 
-        lInfo2.setText("Encadenamiento separado");
-        getContentPane().add(lInfo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(233, 61, -1, -1));
+        tLlaves.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tLlavesActionPerformed(evt);
+            }
+        });
+        getContentPane().add(tLlaves, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 80, 58, -1));
+
+        lInfo2.setText("Numero Primo");
+        getContentPane().add(lInfo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         tPrimo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -112,88 +119,85 @@ public class Ventana extends javax.swing.JFrame {
                 tPrimoKeyTyped(evt);
             }
         });
-        getContentPane().add(tPrimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(389, 58, 58, -1));
+        getContentPane().add(tPrimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 58, -1));
 
         lLlaves.setFont(new java.awt.Font("Tahoma", 3, 13)); // NOI18N
         lLlaves.setText("llaves: ");
-        getContentPane().add(lLlaves, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 115, 594, -1));
+        getContentPane().add(lLlaves, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 594, -1));
 
         lNombres.setFont(new java.awt.Font("Tahoma", 3, 13)); // NOI18N
         lNombres.setText("nombres: ");
-        getContentPane().add(lNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 142, 612, -1));
+        getContentPane().add(lNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 612, -1));
 
         lLlavesM.setText("llaves:");
-        getContentPane().add(lLlavesM, new org.netbeans.lib.awtextra.AbsoluteConstraints(731, 61, -1, -1));
+        getContentPane().add(lLlavesM, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         jLabel2.setText("nombres:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(731, 93, -1, -1));
-        getContentPane().add(tLlavesM, new org.netbeans.lib.awtextra.AbsoluteConstraints(791, 61, 447, -1));
-        getContentPane().add(tNombresM, new org.netbeans.lib.awtextra.AbsoluteConstraints(791, 90, 447, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+        getContentPane().add(tLlavesM, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 447, -1));
+        getContentPane().add(tNombresM, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 447, -1));
 
         bRetirar.setText("Retirar");
+        bRetirar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bRetirar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bRetirarActionPerformed(evt);
             }
         });
-        getContentPane().add(bRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1097, 115, 141, -1));
+        getContentPane().add(bRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 120, 141, -1));
 
         bDispersar.setText("Dispersar");
+        bDispersar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bDispersar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bDispersarActionPerformed(evt);
             }
         });
-        getContentPane().add(bDispersar, new org.netbeans.lib.awtextra.AbsoluteConstraints(791, 115, 140, -1));
-
-        lInfo3.setText("Encadenamiento separado");
-        getContentPane().add(lInfo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(663, 38, -1, -1));
+        getContentPane().add(bDispersar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 90, 140, -1));
 
         lEncSep.setText(" ");
-        getContentPane().add(lEncSep, new org.netbeans.lib.awtextra.AbsoluteConstraints(821, 38, 30, -1));
+        getContentPane().add(lEncSep, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 30, -1));
 
         tDatos.setVisible(false);
         tDatos.setVisible(false);
         jScrollPane2.setViewportView(tListaCabezas);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 206, 1226, 200));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 240, 500, 190));
 
         tDatos.setVisible(false);
         tDatos.setVisible(false);
         jScrollPane1.setViewportView(tDatos);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 454, 1226, 90));
-
-        lTitulo2.setFont(new java.awt.Font("TI-Nspire Sans", 1, 24)); // NOI18N
-        lTitulo2.setForeground(new java.awt.Color(51, 51, 51));
-        lTitulo2.setText("Dispersar aleatoriamente");
-        getContentPane().add(lTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 23, 294, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 700, 190));
 
         lCabezasListas.setFont(new java.awt.Font("TI-Nspire Sans", 1, 24)); // NOI18N
         lCabezasListas.setForeground(new java.awt.Color(51, 51, 51));
-        lCabezasListas.setText("cabezas de las listas");
-        getContentPane().add(lCabezasListas, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 176, -1, -1));
+        lCabezasListas.setText("Cabezas de lista");
+        getContentPane().add(lCabezasListas, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 200, -1, -1));
 
         lDisponible.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         lDisponible.setForeground(new java.awt.Color(255, 0, 0));
         lDisponible.setText("Proximo disponible: ");
+        lDisponible.setVisible(false);
         getContentPane().add(lDisponible, new org.netbeans.lib.awtextra.AbsoluteConstraints(1005, 427, 233, -1));
 
         bBuscar.setText("Buscar");
+        bBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(bBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(943, 115, 141, -1));
+        getContentPane().add(bBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, 141, -1));
 
         bMostrarTablas.setText("Mostrar tabla");
+        bMostrarTablas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bMostrarTablas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bMostrarTablasActionPerformed(evt);
             }
         });
-        getContentPane().add(bMostrarTablas, new org.netbeans.lib.awtextra.AbsoluteConstraints(943, 115, 141, -1));
+        getContentPane().add(bMostrarTablas, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 90, 141, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -372,6 +376,10 @@ public class Ventana extends javax.swing.JFrame {
         bMostrarTablas.setVisible(false);
     }//GEN-LAST:event_bMostrarTablasActionPerformed
 
+    private void tLlavesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tLlavesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tLlavesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAleatorio;
     private javax.swing.JButton bBuscar;
@@ -387,11 +395,9 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel lEncSep;
     private javax.swing.JLabel lInfo;
     private javax.swing.JLabel lInfo2;
-    private javax.swing.JLabel lInfo3;
     private javax.swing.JLabel lLlaves;
     private javax.swing.JLabel lLlavesM;
     private javax.swing.JLabel lNombres;
-    private javax.swing.JLabel lTitulo2;
     private javax.swing.JTable tDatos;
     private javax.swing.JTable tListaCabezas;
     private javax.swing.JTextField tLlaves;
@@ -676,7 +682,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void proximoDisponible(int c) {
         lDisponible.setText("Proximo disponible: " + c);
-        lDisponible.setVisible(true);
+//        lDisponible.setVisible(true);
     }
 
     private void buscar(int a) {

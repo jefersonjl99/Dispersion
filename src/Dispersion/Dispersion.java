@@ -1,11 +1,11 @@
-package matrizdispersion;
+package dispersion;
 
 import java.util.ArrayList;
 import javax.swing.JTable;
 
 /**
  *
- * @author AndresFWilT
+ * @author jefer
  */
 public class Dispersion {
 
@@ -53,7 +53,7 @@ public class Dispersion {
     }
 
     public String[][] crearMatriz() {
-        matrizSalida = new String[4][valores.length + 4];
+        matrizSalida = new String[4][valores.length + 1];
         for (int i = 0; i < matrizSalida[0].length; i++) {
             matrizSalida[0][i] = (i + 1) + "";
             if (i + 1 > valores.length) {
@@ -76,8 +76,8 @@ public class Dispersion {
     }
 
     public void llenarMatriz() {
-        matriz = new int[2][valores.length + 4];
-        for (int i = 0; i < valores.length + 4; i++) {
+        matriz = new int[2][valores.length + 1];
+        for (int i = 0; i < valores.length + 1; i++) {
             matriz[1][i] = i + 2;
         }
         for (int i = 0; i < valores.length; i++) {
