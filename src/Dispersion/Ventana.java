@@ -6,6 +6,7 @@
 package dispersion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -144,7 +145,7 @@ public class Ventana extends javax.swing.JFrame {
                 bRetirarActionPerformed(evt);
             }
         });
-        getContentPane().add(bRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 120, 141, -1));
+        getContentPane().add(bRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, 141, -1));
 
         bDispersar.setText("Dispersar");
         bDispersar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -188,7 +189,7 @@ public class Ventana extends javax.swing.JFrame {
                 bBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(bBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, 141, -1));
+        getContentPane().add(bBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 120, 141, -1));
 
         bMostrarTablas.setText("Mostrar tabla");
         bMostrarTablas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -315,7 +316,13 @@ public class Ventana extends javax.swing.JFrame {
             lLlaves.setVisible(false);
             lNombres.setVisible(false);
         } else {
-            if (!registrarValores(llaves, nombres)) {
+            if (registrarValores(llaves, nombres)==2) {
+                JOptionPane.showMessageDialog(getContentPane(), "Ingrese llaves numericas", "Atencion", JOptionPane.ERROR_MESSAGE);
+                tLlavesM.setText("");
+                tLlavesM.requestFocus();
+                lLlaves.setVisible(false);
+                lNombres.setVisible(false);
+            } else if (registrarValores(llaves, nombres)==2) {
                 JOptionPane.showMessageDialog(getContentPane(), "Ingrese llaves numericas", "Atencion", JOptionPane.ERROR_MESSAGE);
                 tLlavesM.setText("");
                 tLlavesM.requestFocus();
@@ -498,19 +505,29 @@ public class Ventana extends javax.swing.JFrame {
         return matriz;
     }
 
-    private boolean registrarValores(String llaves, String nombres) {
+    private int registrarValores(String llaves, String nombres) {
         String[] partes1 = llaves.split(",");
         this.letras = new String[partes1.length];
         this.letras = nombres.split(",");
         this.llaves = new int[partes1.length];
+        int[] llavesTemp = new int[partes1.length];
         for (int i = 0; i < partes1.length; i++) {
-            if (esNumerico(partes1[i])) {
+            llavesTemp = this.llaves;
+            int linea =Integer.parseInt(partes1[i]);
+            if (contains(llavesTemp, linea)) {
+                return 1;
+            } else if (esNumerico(partes1[i])) {
                 this.llaves[i] = Integer.parseInt(partes1[i]);
             } else {
-                return false;
+                return 2;
             }
         }
-        return true;
+
+        return 0;
+    }
+
+    public static boolean contains(final int[] arr, final int key) {
+        return Arrays.stream(arr).anyMatch(i -> i == key);
     }
 
     private void dispersion(int nPrimo, int[] valores, String[] letras) {
@@ -537,7 +554,7 @@ public class Ventana extends javax.swing.JFrame {
         ponerDatos(reDefinirMatriz(matrizDatos), tDatos);
         tDatos.setVisible(true);
         bRetirar.setVisible(true);
-        bBuscar.setVisible(true);
+//        bBuscar.setVisible(true);
         proximoDisponible(llaves.length + 1);
     }
 
@@ -682,7 +699,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void proximoDisponible(int c) {
         lDisponible.setText("Proximo disponible: " + c);
-//        lDisponible.setVisible(true);
+        lDisponible.setVisible(true);
     }
 
     private void buscar(int a) {
