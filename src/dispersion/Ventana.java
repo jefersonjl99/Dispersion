@@ -5,6 +5,7 @@
  */
 package dispersion;
 
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -21,7 +22,7 @@ import javax.swing.table.TableColumnModel;
 /**
  *
  * @author jefer
- */ 
+ */
 public class Ventana extends javax.swing.JFrame {
 
     //Declaracion de variables globales
@@ -316,13 +317,14 @@ public class Ventana extends javax.swing.JFrame {
             lLlaves.setVisible(false);
             lNombres.setVisible(false);
         } else {
-            if (registrarValores(llaves, nombres)==2) {
-                JOptionPane.showMessageDialog(getContentPane(), "Ingrese llaves numericas", "Atencion", JOptionPane.ERROR_MESSAGE);
-                tLlavesM.setText("");
-                tLlavesM.requestFocus();
-                lLlaves.setVisible(false);
-                lNombres.setVisible(false);
-            } else if (registrarValores(llaves, nombres)==2) {
+//            if (registrarValores(llaves, nombres) == 1) {
+//                JOptionPane.showMessageDialog(getContentPane(), "Ingrese llaves numericas sin repetir", "Atencion", JOptionPane.ERROR_MESSAGE);
+//                tLlavesM.setText("");
+//                tLlavesM.requestFocus();
+//                lLlaves.setVisible(false);
+//                lNombres.setVisible(false);
+//            } 
+            if (registrarValores(llaves, nombres) == 2) {
                 JOptionPane.showMessageDialog(getContentPane(), "Ingrese llaves numericas", "Atencion", JOptionPane.ERROR_MESSAGE);
                 tLlavesM.setText("");
                 tLlavesM.requestFocus();
@@ -512,17 +514,64 @@ public class Ventana extends javax.swing.JFrame {
         int[] llavesTemp = new int[partes1.length];
         for (int i = 0; i < partes1.length; i++) {
             llavesTemp = this.llaves;
-            int linea =Integer.parseInt(partes1[i]);
-            if (contains(llavesTemp, linea)) {
-                return 1;
-            } else if (esNumerico(partes1[i])) {
+//            int linea = Integer.parseInt(partes1[i]);
+//            if (contains(llavesTemp, linea)) {
+//                return 1;
+//            } else 
+            if (esNumerico(partes1[i])) {
                 this.llaves[i] = Integer.parseInt(partes1[i]);
             } else {
                 return 2;
             }
         }
+        this.llaves = sinRepetir(this.llaves);
+//        if (partes1.length < this.llaves.length) {
+//            JOptionPane.showMessageDialog(getContentPane(), "Ingrese llaves numericas", "Atencion", JOptionPane.ERROR_MESSAGE);
+//        }
 
         return 0;
+    }
+
+    public int[] sinRepetir(int[] a) {
+        System.out.println("entra:" + Arrays.toString(a));
+        ArrayList<Integer> posiciones = new ArrayList<>();
+        int len = a.length;
+        int pos = 0;
+        for (int i = 1; i < a.length; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (a[i] == a[j]) {
+                    len--;
+                    posiciones.add(i);
+                    JOptionPane.showMessageDialog(getContentPane(), "Llave " + a[i] + " repetida", "Atencion", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
+        System.out.println("posiciones: " + posiciones.toString());
+        String[] temp = new String[this.letras.length];
+        int k = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (k > len) {
+                break;
+            } else if (posiciones.contains(i)) {
+                if (k == len) {
+                    break;
+                }
+            } else {
+                a[k] = a[i];
+                temp[k++] = this.letras[i];
+            }
+        }
+
+        int[] c = new int[len];
+        this.letras = new String[len];
+
+        for (int i = 0; i < len; i++) {
+            c[i] = a[i];
+            this.letras[i] = temp[i];
+        }
+        System.out.println("el c. " + Arrays.toString(c));
+        return c;
     }
 
     public static boolean contains(final int[] arr, final int key) {
@@ -575,13 +624,13 @@ public class Ventana extends javax.swing.JFrame {
             JTableHeader head = tabla.getTableHeader();
             TableColumnModel cModelo = head.getColumnModel();
             TableColumn columna = null;
-            String [] valor = new String[]{"Modulo","Cabeza","Lista"};
+            String[] valor = new String[]{"Modulo", "Cabeza", "Lista"};
             for (int i = 0; i < matriz[0].length; i++) {
                 columna = cModelo.getColumn(i);
                 columna.setHeaderValue(valor[i]);
             }
             tabla.repaint();
-        } else if(value.equals("a")){
+        } else if (value.equals("a")) {
             JTableHeader head = tabla.getTableHeader();
             TableColumnModel cModelo = head.getColumnModel();
             TableColumn columna = null;
@@ -590,7 +639,7 @@ public class Ventana extends javax.swing.JFrame {
                 columna.setHeaderValue(matriz[i][0]);
             }
             tabla.repaint();
-        }else{
+        } else {
             JTableHeader head = tabla.getTableHeader();
             TableColumnModel cModelo = head.getColumnModel();
             TableColumn columna = null;
@@ -602,8 +651,8 @@ public class Ventana extends javax.swing.JFrame {
         }
 
     }
-    
-    private void ponerVectDatos(String [][] matrizd, JTable tabla){
+
+    private void ponerVectDatos(String[][] matrizd, JTable tabla) {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < matrizd.length; i++) {
@@ -742,7 +791,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void mostrarTablas() {
         crearModelo(d.matrizCabeza(), tListaCabezas);
-        mostrarHeader(d.matrizCabeza(), tListaCabezas,"c");
+        mostrarHeader(d.matrizCabeza(), tListaCabezas, "c");
         ponerDatos(d.matrizCabeza(), tListaCabezas);
         lCabezasListas.setVisible(true);
         lCursor.setVisible(true);
