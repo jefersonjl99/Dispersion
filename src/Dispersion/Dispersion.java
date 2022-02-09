@@ -1,6 +1,7 @@
 package dispersion;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
@@ -36,6 +37,7 @@ public class Dispersion {
                 cabezaListas[valores[i] % nPrimo] = i + 1;
             }
         }
+        System.out.println("salidaa cabezas:");
         for (int i = 0; i < cabezaListas.length; i++) {
             System.out.print(cabezaListas[i] + " ");
         }
@@ -95,71 +97,86 @@ public class Dispersion {
     }
 
     public int buscar(int valor) {
-        int pos = 0;
+        int posi = 0;
         for (int i = 0; i < valores.length; i++) {
             if (valores[i] == valor) {
-                pos = i;
+                posi = i;
             }
         }
-        return pos;
+        return posi;
     }
 
     int buscarC(int a, JTable tListaCabezas) {
-        int pos = 0;
-        String c = "";
+        int posi = 0;
+        String c;
         for (int j = 0; j < tListaCabezas.getRowCount(); j++) {
             for (int i = 0; i < hacerSplit(String.valueOf(tListaCabezas.getValueAt(j, 2))).length; i++) {
                 c = hacerSplit(String.valueOf(tListaCabezas.getValueAt(j, 2)))[i];
                 if (c.equals(String.valueOf(a))) {
-                    pos = j;
+                    posi = j;
                     break;
                 }
             }
         }
-        return pos;
+        return posi;
     }
 
     public void borrar(int llave) {
+        System.out.println("llave: " + llave);
+        int pos_temp = pos;
+        System.out.println("pos = " + pos);
         int posicion = 0;
+        boolean encontro = false;
         for (int i = 0; i < matrizSalida[0].length; i++) {
             if (llave == Integer.parseInt(matrizSalida[1][i])) {
+                System.out.println(matrizSalida[1][i]);
                 posicion = i;
+                encontro = true;
                 System.out.println("Llave encontrada ");
                 break;
             }
         }
-        int padre = Integer.parseInt(matrizSalida[3][posicion]);
-        if (padre == 0) {
-            for (int i = 0; i < matrizSalida[0].length; i++) {
-                if (matrizSalida[1][i].equals("0")) {
-                    matrizSalida[3][posicion] = matrizSalida[0][i];
-                    break;
+
+        if (encontro) {
+            int padre = Integer.parseInt(matrizSalida[3][posicion]);
+            if (padre == 0) {
+                for (int i = 0; i < matrizSalida[0].length; i++) {
+                    if (matrizSalida[1][i].equals("0")) {
+                        matrizSalida[3][posicion] = matrizSalida[0][i];
+                        break;
+                    }
+                }
+                matrizSalida[1][posicion] = 0 + "";
+                matrizSalida[2][posicion] = "";
+            } else {
+                for (int i = 0; i < matrizSalida[0].length; i++) {
+                    if (posicion + 1 == Integer.parseInt(matrizSalida[3][i])) {
+                        matrizSalida[3][i] = String.valueOf(padre);
+                    }
+                }
+                for (int i = 0; i < matrizSalida[0].length; i++) {
+                    if (matrizSalida[1][i].equals("0")) {
+                        matrizSalida[3][posicion] = matrizSalida[0][i];
+                        break;
+                    }
+                }
+                matrizSalida[1][posicion] = 0 + "";
+                matrizSalida[2][posicion] = "";
+            }
+            pos = posicion;
+            for (int i = 0; i < cabeza[llave % nPrimo].size(); i++) {
+                if (cabeza[llave % nPrimo].get(i).equals(llave)) {
+                    posicion = i;
                 }
             }
-            matrizSalida[1][posicion] = 0 + "";
-            matrizSalida[2][posicion] = "";
+            cabeza[llave % nPrimo].remove(posicion);
         } else {
-            for (int i = 0; i < matrizSalida[0].length; i++) {
-                if (posicion + 1 == Integer.parseInt(matrizSalida[3][i])) {
-                    matrizSalida[3][i] = String.valueOf(padre);
-                }
+            if (pos == 0) {
+                this.pos = matrizSalida[0].length-1;
             }
-            for (int i = 0; i < matrizSalida[0].length; i++) {
-                if (matrizSalida[1][i].equals("0")) {
-                    matrizSalida[3][posicion] = matrizSalida[0][i];
-                    break;
-                }
-            }
-            matrizSalida[1][posicion] = 0 + "";
-            matrizSalida[2][posicion] = "";
+            JOptionPane.showMessageDialog(null, "El elemento no existe", "ERROR", JOptionPane.ERROR_MESSAGE);
+            System.out.println("pos" + pos);
         }
-        pos = posicion;
-        for (int i = 0; i < cabeza[llave % nPrimo].size(); i++) {
-            if (cabeza[llave % nPrimo].get(i).equals(llave)) {
-                posicion = i;
-            }
-        }
-        cabeza[llave % nPrimo].remove(posicion);
     }
 
     public String[][] matrizCabeza() {

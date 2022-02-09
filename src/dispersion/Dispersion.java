@@ -97,32 +97,34 @@ public class Dispersion {
     }
 
     public int buscar(int valor) {
-        int pos = 0;
+        int posi = 0;
         for (int i = 0; i < valores.length; i++) {
             if (valores[i] == valor) {
-                pos = i;
+                posi = i;
             }
         }
-        return pos;
+        return posi;
     }
 
     int buscarC(int a, JTable tListaCabezas) {
-        int pos = 0;
-        String c = "";
+        int posi = 0;
+        String c;
         for (int j = 0; j < tListaCabezas.getRowCount(); j++) {
             for (int i = 0; i < hacerSplit(String.valueOf(tListaCabezas.getValueAt(j, 2))).length; i++) {
                 c = hacerSplit(String.valueOf(tListaCabezas.getValueAt(j, 2)))[i];
                 if (c.equals(String.valueOf(a))) {
-                    pos = j;
+                    posi = j;
                     break;
                 }
             }
         }
-        return pos;
+        return posi;
     }
 
     public void borrar(int llave) {
         System.out.println("llave: " + llave);
+        int pos_temp = pos;
+        System.out.println("pos = " + pos);
         int posicion = 0;
         boolean encontro = false;
         for (int i = 0; i < matrizSalida[0].length; i++) {
@@ -169,7 +171,11 @@ public class Dispersion {
             }
             cabeza[llave % nPrimo].remove(posicion);
         } else {
+            if (pos == 0) {
+                this.pos = matrizSalida[0].length-1;
+            }
             JOptionPane.showMessageDialog(null, "El elemento no existe", "ERROR", JOptionPane.ERROR_MESSAGE);
+            System.out.println("pos" + pos);
         }
     }
 
